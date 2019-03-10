@@ -1,37 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import styles from './Input.module.scss';
-import FormInput from '../../../UI/FormInput/FormInput';
+import * as elements from './subInputElements';
 import Button from '../../../UI/Button/Button';
-import * as elements from './inputElements';
-import * as actions from '../../../../store/actions/index';
-import SubInput from '../SubInput/SubInput';
+import FormInput from '../../../UI/FormInput/FormInput';
+import styles from './SubInput.module.scss';
 
-class Input extends Component {
+class SubInput extends Component {
   state = {
     controls: {
+      condition: elements.condition,
+      radioConditionValue: elements.radioConditionValue,
+      inputConditionValue: elements.inputConditionValue,
       question: elements.question,
       type: elements.type
     },
     formIsValid: false,
-    subInputCount: 0
-  }
-
-  componentDidMount() {
-    const updatedControls = {
-      ...this.state.controls,
-      question: {
-        ...this.state.controls.question,
-        value: this.props.inputData[this.props.value - 1]
-      },
-      type: {
-        ...this.state.controls.question,
-        // value: this.props.inputData[this.props.value - 1]
-      }
-    }
-    this.setState({controls: updatedControls})
-    // this.props.inputData
   }
 
   checkValidity(value, rules) {
@@ -68,27 +51,7 @@ class Input extends Component {
     this.setState({ controls: updatedControls, formIsValid: formIsValid });
   };
 
-  onAddSubInput = () => {
-    console.log(this.props.inputData, this.props.value)
-    this.setState({ subInputCount: this.state.subInputCount + 1 })
-    const data = {
-      question: this.state.controls.question.value,
-      type: this.state.controls.type.value,
-      id: this.props.value
-    }
-    console.log(data);
-    this.props.onGetDB(null, null, data)
-  }
-
-  onDeleteHandler = () => {
-    this.props.onGetDB(null, this.props.value)
-  }
-
   render() {
-    const subInputs = [];
-    for (let i = 0; i < this.state.subInputCount; i++) {
-      subInputs.push(<SubInput key={i} />)
-    }
     const formElementsArray = [];
     for (let key in this.state.controls) {
       formElementsArray.push({
@@ -122,26 +85,10 @@ class Input extends Component {
             <Button clicked={this.onAddSubInput}>Add Sub-Input</Button>
             <Button clicked={this.onDeleteHandler}>Delete</Button>
           </div>
-          <p>{this.props.value}</p>
         </div>
-        {subInputs}
       </>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    inputsCount: state.database.inputsCount,
-    inputData: state.database.inputData
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onGetDB: (inputData, inputIndex, inputValues) =>
-      dispatch(actions.getDB(inputData, inputIndex, inputValues))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default SubInput;

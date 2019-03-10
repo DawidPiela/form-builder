@@ -12,6 +12,7 @@ export const question = {
 export const type = {
   elementText: 'Type',
   elementType: 'select',
+  value: 'radio',
   elementConfig: {
     options: [
       {value: 'radio', displayValue: 'Yes / No'},

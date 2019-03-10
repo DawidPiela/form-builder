@@ -7,7 +7,10 @@ const initialState = {
 }
 
 const getInputData = (state, action) => {
-  return updateObject(state, { inputsCount: action.inputsCount })
+  return updateObject(state, {
+    inputsCount: action.inputsCount,
+    inputData: action.inputData
+  })
 }
 
 const putInputData = (state, action) => {
