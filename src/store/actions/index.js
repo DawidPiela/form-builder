@@ -1,0 +1,3 @@
+export {
+  getDB
+} from './database';

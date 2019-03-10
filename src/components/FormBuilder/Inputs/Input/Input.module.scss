@@ -1,0 +1,28 @@
+.inputBox {
+  border: 1px solid black;
+  margin: 5px 0;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 600px;
+  p {
+    margin: 0;
+    padding: 0;
+    flex: 1 0 30%;
+  }
+  div {
+    flex: 1 0 65%;
+  }
+  input, select {
+    width: 100%;
+  }
+}
+
+// .formItem {
+//   p {
+//     flex: 1 0 40%;
+//   }
+//   div {
+//     flex: 1 0 40%;
+//   }
+// }
