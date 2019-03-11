@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import * as elements from './subInputElements';
 import Button from '../../../UI/Button/Button';
 import FormInput from '../../../UI/FormInput/FormInput';
 import styles from './SubInput.module.scss';
+import SubInputs from './SubInputs';
+import * as actions from '../../../../store/actions';
 
 class SubInput extends Component {
   state = {
@@ -51,6 +54,47 @@ class SubInput extends Component {
     }
     this.setState({ controls: updatedControls, formIsValid: formIsValid });
   };
+
+  onAddSubInput = () => {
+    console.log(this.props.arr)
+    this.props.tempFunc(this.props.arr)
+    
+    // const data = this.props.inputData;
+    // let updatedFormData = {};
+    // let keyValue;
+    // for (let key in data) {
+    //   if (data.hasOwnProperty(key)) {
+    //     if (data[key].cID === this.props.value) {
+    //       keyValue = key;
+    //       let oldSubInputs = data[key].subInputs
+    //       let newSubInputs = []
+    //       const newSubInput = {
+    //         id: Date.now(),
+    //         conditionValue: '',
+    //         question: '',
+    //         type: 'radio',
+    //         subInputs: []
+    //       }
+    //       if (oldSubInputs.length === 0) {
+    //         newSubInputs.push(newSubInput)
+    //       } else {
+    //         oldSubInputs.push(newSubInput)
+    //         newSubInputs = oldSubInputs;
+    //       }
+    //       updatedFormData = {
+    //         ...data,
+    //         [key]: {
+    //           cID: data[key].cID,
+    //           question: this.state.controls.question.value,
+    //           type: this.state.controls.type.value,
+    //           subInputs: newSubInputs
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
+  }
 
   render() {
     const formElementsArray = [];
@@ -105,11 +149,30 @@ class SubInput extends Component {
           <div>
             <Button clicked={this.onAddSubInput}>Add Sub-Input</Button>
             <Button clicked={this.onDeleteHandler}>Delete</Button>
+            {this.props.value}
           </div>
         </div>
+        <SubInputs type={this.state.controls.type.value} value={this.props.value} />
       </>
     )
   }
 }
 
-export default SubInput;
+const mapStateToProps = state => {
+  return {
+    inputsCount: state.database.inputsCount,
+    inputQuestions: state.database.inputQuestions,
+    inputTypes: state.database.inputTypes,
+    subInputsCount: state.database.subInputsCount,
+    inputData: state.database.inputData
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetDB: (inputData, inputIndex, inputValues) =>
+      dispatch(actions.getDB(inputData, inputIndex, inputValues))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubInput);

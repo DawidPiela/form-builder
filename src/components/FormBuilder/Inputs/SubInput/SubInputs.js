@@ -8,11 +8,26 @@ class SubInputs extends Component {
   componentDidMount() {
     this.props.onGetDB()
   }
+  tempFunc(val) {
+    console.log(val)
+  }
   render() {
-    // console.log('SUBS__', this.props.subInputsCount)
+    const data = this.props.inputData;
     let subInputs = [];
-    for (let i = 1; i <= this.props.subInputsCount; i++) {
-      subInputs[i] = <SubInput key={i} value={i} type={this.props.type} />
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data[key].cID === this.props.value) {
+          if (typeof data[key].subInputs !== 'undefined') {
+            for (let i = 0; i < data[key].subInputs.length; i++) {
+              subInputs[i] = <SubInput
+                key={i}
+                value={data[key].subInputs[i].id}
+                arr={this.props.arr}
+                tempFunc={this.tempFunc} />
+            }
+          }
+        }
+      }
     }
     return (
       <div>
@@ -24,7 +39,8 @@ class SubInputs extends Component {
 
 const mapStateToProps = state => {
   return {
-    subInputsCount: state.database.subInputsCount
+    subInputsCount: state.database.subInputsCount,
+    inputData: state.database.inputData
   }
 }
 

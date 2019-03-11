@@ -77,11 +77,9 @@ export const getDB = (inputData, inputIndex, inputValues, level) => {
             subInputs = query.result[key].subInputs
           }
         }
-        dispatch(getSubInputData(subInputs))
         if (inputValues) {
-          subInputs += 1;
-          store.put({ cID: Date.now(), question: inputValues.question, type: inputValues.type, subInputs: [] });
-          dispatch(getSubInputData(subInputs, inputValues.id))
+          store.put(inputValues)
+          dispatch(getInputData(inputValues));
         }
         if (inputData) {
           store.put({ cID: Date.now(), question: '', type: 'radio', subInputs: [] });

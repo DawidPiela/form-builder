@@ -10,14 +10,11 @@ class Inputs extends Component {
     this.props.onGetDB()
   }
   render() {
-    // console.log(this.props.inputData)
     const data = this.props.inputData;
-    // console.log(data)
     const inputs = [];
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
         for (let i = 0; i < data.length; i++) {
-          // console.log(data[key].cID)
           inputs[i] = <Input key={i} value={data[i].cID} />
         }
       }

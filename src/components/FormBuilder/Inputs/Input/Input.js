@@ -6,7 +6,6 @@ import FormInput from '../../../UI/FormInput/FormInput';
 import Button from '../../../UI/Button/Button';
 import * as elements from './inputElements';
 import * as actions from '../../../../store/actions/index';
-// import SubInput from '../SubInput/SubInput';
 import SubInputs from '../SubInput/SubInputs';
 
 class Input extends Component {
@@ -77,13 +76,41 @@ class Input extends Component {
   };
 
   onAddSubInput = () => {
-    // this.setState({ subInputCount: this.state.subInputCount + 1 })
-    const data = {
-      question: this.state.controls.question.value,
-      type: this.state.controls.type.value,
-      id: this.props.value
+    const data = this.props.inputData;
+    let updatedFormData = {};
+    let keyValue;
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data[key].cID === this.props.value) {
+          keyValue = key;
+          let oldSubInputs = data[key].subInputs
+          let newSubInputs = []
+          const newSubInput = {
+            id: Date.now(),
+            conditionValue: '',
+            question: '',
+            type: 'radio',
+            subInputs: []
+          }
+          if (oldSubInputs.length === 0) {
+            newSubInputs.push(newSubInput)
+          } else {
+            oldSubInputs.push(newSubInput)
+            newSubInputs = oldSubInputs;
+          }
+          updatedFormData = {
+            ...data,
+            [key]: {
+              cID: data[key].cID,
+              question: this.state.controls.question.value,
+              type: this.state.controls.type.value,
+              subInputs: newSubInputs
+            }
+          }
+        }
+      }
     }
-    this.props.onGetDB(null, null, data, 0)
+    this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
   }
 
   onDeleteHandler = () => {
@@ -116,6 +143,17 @@ class Input extends Component {
       </div>
     ))
 
+    let arr;
+
+    const data = this.props.inputData;
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data[key].cID === this.props.value) {
+          arr = data[key].subInputs
+        }
+      }
+    }
+
     return (
       <>
         <div className={styles.inputBox}>
@@ -123,9 +161,13 @@ class Input extends Component {
           <div>
             <Button clicked={this.onAddSubInput}>Add Sub-Input</Button>
             <Button clicked={this.onDeleteHandler}>Delete</Button>
+            {this.props.value}
           </div>
         </div>
-        <SubInputs type={this.state.controls.type.value} />
+        <SubInputs
+          type={this.state.controls.type.value}
+          value={this.props.value}
+          arr={arr} />
       </>
     )
   }
@@ -136,7 +178,8 @@ const mapStateToProps = state => {
     inputsCount: state.database.inputsCount,
     inputQuestions: state.database.inputQuestions,
     inputTypes: state.database.inputTypes,
-    subInputsCount: state.database.subInputsCount
+    subInputsCount: state.database.subInputsCount,
+    inputData: state.database.inputData
   }
 }
 
