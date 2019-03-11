@@ -14,7 +14,7 @@ class SubInput extends Component {
       question: elements.question,
       type: elements.type
     },
-    formIsValid: false,
+    formIsValid: false
   }
 
   checkValidity(value, rules) {
@@ -60,22 +60,42 @@ class SubInput extends Component {
       })
     }
 
-    let form = formElementsArray.map(formElement => (
-      <div key={formElement.id}>
-        <p>{formElement.config.elementText}</p>
-        <div>
-          <FormInput
-            elementType={formElement.config.elementType}
-            elementConfig={formElement.config.elementConfig}
-            value={formElement.config.value}
-            invalid={!formElement.config.valid}
-            shouldValidate={formElement.config.validation}
-            touched={formElement.config.touched}
-            changed={event => this.inputChangedHandler(event, formElement.id)}
-          />
+    let form = formElementsArray.map(formElement => {
+      switch (this.props.type) {
+        case 'radio':
+          if (formElement.id === 'condition' || formElement.id === 'inputConditionValue') {
+            return null;
+          }
+          break;
+        case 'number':
+          if (formElement.id === 'radioConditionValue' || formElement.id === 'inputConditionValue') {
+            return null;
+          }
+          break;
+        case 'text':
+          if (formElement.id === 'radioConditionValue' || formElement.id === 'condition') {
+            return null;
+          }
+          break;
+        default: ;
+      }
+      return (
+        <div key={formElement.id}>
+          <p>{formElement.config.elementText}</p>
+          <div>
+            <FormInput
+              elementType={formElement.config.elementType}
+              elementConfig={formElement.config.elementConfig}
+              value={formElement.config.value}
+              invalid={!formElement.config.valid}
+              shouldValidate={formElement.config.validation}
+              touched={formElement.config.touched}
+              changed={event => this.inputChangedHandler(event, formElement.id)}
+            />
+          </div>
         </div>
-      </div>
-    ))
+      )
+    })
 
     return (
       <>

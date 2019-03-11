@@ -11,6 +11,7 @@ export const condition = {
 }
 
 export const radioConditionValue = {
+  elementText: 'Condition',
   elementType: 'select',
   elementConfig: {
     options: [
@@ -21,6 +22,7 @@ export const radioConditionValue = {
 }
 
 export const inputConditionValue = {
+  elementText: 'Condition',
   elementType: 'text',
   value: '',
   validation: {

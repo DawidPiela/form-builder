@@ -19,19 +19,28 @@ class Input extends Component {
   }
 
   componentDidMount() {
+    let questionValue;
+    let typeValue;
+    if (typeof this.props.inputQuestions !== 'undefined' && this.props.inputQuestions[0]) {
+      questionValue = this.props.inputQuestions[this.props.value - 1];
+      typeValue = this.props.inputTypes[this.props.value - 1] || 'radio';
+    } else {
+      questionValue = '';
+      typeValue = 'radio';
+    }
     const updatedControls = {
       ...this.state.controls,
       question: {
         ...this.state.controls.question,
-        value: this.props.inputData[this.props.value - 1]
-      },
+        value: questionValue
+      }
+      ,
       type: {
-        ...this.state.controls.question,
-        // value: this.props.inputData[this.props.value - 1]
+        ...this.state.controls.type,
+        value: typeValue
       }
     }
     this.setState({controls: updatedControls})
-    // this.props.inputData
   }
 
   checkValidity(value, rules) {
@@ -69,14 +78,12 @@ class Input extends Component {
   };
 
   onAddSubInput = () => {
-    console.log(this.props.inputData, this.props.value)
     this.setState({ subInputCount: this.state.subInputCount + 1 })
     const data = {
       question: this.state.controls.question.value,
       type: this.state.controls.type.value,
       id: this.props.value
     }
-    console.log(data);
     this.props.onGetDB(null, null, data)
   }
 
@@ -87,7 +94,7 @@ class Input extends Component {
   render() {
     const subInputs = [];
     for (let i = 0; i < this.state.subInputCount; i++) {
-      subInputs.push(<SubInput key={i} />)
+      subInputs.push(<SubInput key={i} type={this.state.controls.type.value} />)
     }
     const formElementsArray = [];
     for (let key in this.state.controls) {
@@ -133,7 +140,8 @@ class Input extends Component {
 const mapStateToProps = state => {
   return {
     inputsCount: state.database.inputsCount,
-    inputData: state.database.inputData
+    inputQuestions: state.database.inputQuestions,
+    inputTypes: state.database.inputTypes
   }
 }
 

@@ -2,14 +2,16 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-  inputData: null,
+  inputTypes: null,
+  inputQuestions: null,
   inputsCount: null
 }
 
 const getInputData = (state, action) => {
   return updateObject(state, {
     inputsCount: action.inputsCount,
-    inputData: action.inputData
+    inputQuestions: action.inputQuestions,
+    inputTypes: action.inputTypes
   })
 }
 

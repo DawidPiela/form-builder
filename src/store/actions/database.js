@@ -1,10 +1,11 @@
 import * as actionTypes from './actionTypes';
 
-export const getInputData = (inputsCount, inputData) => {
+export const getInputData = (inputsCount, inputQuestions, inputTypes) => {
   return {
     type: actionTypes.GET_INPUT_DATA,
     inputsCount: inputsCount,
-    inputData: inputData
+    inputQuestions: inputQuestions,
+    inputTypes: inputTypes
   }
 }
 
@@ -54,6 +55,7 @@ export const getDB = (inputData, inputIndex, inputValues) => {
       let keys = [];
       let values = [];
       let questions = [];
+      let types = [];
 
       query.onsuccess = () => {
         console.log(query.result)
@@ -62,12 +64,12 @@ export const getDB = (inputData, inputIndex, inputValues) => {
             values.push(query.result[key].cID)
             keys.push(key)
             questions.push(query.result[key].question)
+            types.push(query.result[key].type)
           }
         }
-        console.log(values[inputIndex])
-        dispatch(getInputData(keys.length, questions));
+        dispatch(getInputData(keys.length, questions, types));
+        console.log(types)
         let counter = Number(values[values.length - 1]) || 0;
-        console.log(inputValues)
         if (inputValues) {
           console.log({ cID: inputValues.id, question: inputValues.question, type: inputValues.type })
           store.put({ cID: inputValues.id, question: inputValues.question, type: inputValues.type });
