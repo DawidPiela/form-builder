@@ -1,3 +1,4 @@
 export const PUT_INPUT_DATA = 'PUT_INPUT_DATA';
 export const GET_INPUT_DATA = 'GET_INPUT_DATA';
 export const DELETE_INPUT_DATA = 'DELETE_INPUT_DATA';
+export const GET_SUB_INPUT_DATA = 'GET_SUB_INPUT_DATA';

@@ -10,8 +10,17 @@ export const condition = {
   }
 }
 
-export const radioConditionValue = {
+export const equalsCondition = {
   elementText: 'Condition',
+  elementType: 'select',
+  elementConfig: {
+    options: [
+      {value: 'equals', displayValue: 'Equals'}
+    ]
+  }
+}
+
+export const radioConditionValue = {
   elementType: 'select',
   elementConfig: {
     options: [
@@ -22,7 +31,6 @@ export const radioConditionValue = {
 }
 
 export const inputConditionValue = {
-  elementText: 'Condition',
   elementType: 'text',
   value: '',
   validation: {

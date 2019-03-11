@@ -6,7 +6,8 @@ import FormInput from '../../../UI/FormInput/FormInput';
 import Button from '../../../UI/Button/Button';
 import * as elements from './inputElements';
 import * as actions from '../../../../store/actions/index';
-import SubInput from '../SubInput/SubInput';
+// import SubInput from '../SubInput/SubInput';
+import SubInputs from '../SubInput/SubInputs';
 
 class Input extends Component {
   state = {
@@ -14,8 +15,7 @@ class Input extends Component {
       question: elements.question,
       type: elements.type
     },
-    formIsValid: false,
-    subInputCount: 0
+    formIsValid: false
   }
 
   componentDidMount() {
@@ -33,14 +33,13 @@ class Input extends Component {
       question: {
         ...this.state.controls.question,
         value: questionValue
-      }
-      ,
+      },
       type: {
         ...this.state.controls.type,
         value: typeValue
       }
     }
-    this.setState({controls: updatedControls})
+    this.setState({ controls: updatedControls })
   }
 
   checkValidity(value, rules) {
@@ -78,13 +77,13 @@ class Input extends Component {
   };
 
   onAddSubInput = () => {
-    this.setState({ subInputCount: this.state.subInputCount + 1 })
+    // this.setState({ subInputCount: this.state.subInputCount + 1 })
     const data = {
       question: this.state.controls.question.value,
       type: this.state.controls.type.value,
       id: this.props.value
     }
-    this.props.onGetDB(null, null, data)
+    this.props.onGetDB(null, null, data, 0)
   }
 
   onDeleteHandler = () => {
@@ -92,10 +91,6 @@ class Input extends Component {
   }
 
   render() {
-    const subInputs = [];
-    for (let i = 0; i < this.state.subInputCount; i++) {
-      subInputs.push(<SubInput key={i} type={this.state.controls.type.value} />)
-    }
     const formElementsArray = [];
     for (let key in this.state.controls) {
       formElementsArray.push({
@@ -129,9 +124,8 @@ class Input extends Component {
             <Button clicked={this.onAddSubInput}>Add Sub-Input</Button>
             <Button clicked={this.onDeleteHandler}>Delete</Button>
           </div>
-          <p>{this.props.value}</p>
         </div>
-        {subInputs}
+        <SubInputs type={this.state.controls.type.value} />
       </>
     )
   }
@@ -141,7 +135,8 @@ const mapStateToProps = state => {
   return {
     inputsCount: state.database.inputsCount,
     inputQuestions: state.database.inputQuestions,
-    inputTypes: state.database.inputTypes
+    inputTypes: state.database.inputTypes,
+    subInputsCount: state.database.subInputsCount
   }
 }
 

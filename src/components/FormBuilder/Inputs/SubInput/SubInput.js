@@ -9,6 +9,7 @@ class SubInput extends Component {
   state = {
     controls: {
       condition: elements.condition,
+      equalsCondition: elements.equalsCondition,
       radioConditionValue: elements.radioConditionValue,
       inputConditionValue: elements.inputConditionValue,
       question: elements.question,
@@ -68,7 +69,7 @@ class SubInput extends Component {
           }
           break;
         case 'number':
-          if (formElement.id === 'radioConditionValue' || formElement.id === 'inputConditionValue') {
+          if (formElement.id === 'radioConditionValue' || formElement.id === 'equalsCondition') {
             return null;
           }
           break;

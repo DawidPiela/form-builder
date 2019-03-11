@@ -1,11 +1,20 @@
 import * as actionTypes from './actionTypes';
 
-export const getInputData = (inputsCount, inputQuestions, inputTypes) => {
+export const getInputData = (inputData, inputsCount, inputQuestions, inputTypes) => {
   return {
     type: actionTypes.GET_INPUT_DATA,
+    inputData: inputData,
     inputsCount: inputsCount,
     inputQuestions: inputQuestions,
     inputTypes: inputTypes
+  }
+}
+
+export const getSubInputData = (subInputsCount, parentData) => {
+  return {
+    type: actionTypes.GET_SUB_INPUT_DATA,
+    subInputsCount: subInputsCount,
+    parentData: parentData
   }
 }
 
@@ -23,8 +32,7 @@ export const deleteInputData = (inputIndex) => {
   }
 }
 
-export const getDB = (inputData, inputIndex, inputValues) => {
-  console.log(inputValues)
+export const getDB = (inputData, inputIndex, inputValues, level) => {
   return dispatch => {
     // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     let request = window.indexedDB.open('TempDatabaseH', 1);
@@ -56,6 +64,7 @@ export const getDB = (inputData, inputIndex, inputValues) => {
       let values = [];
       let questions = [];
       let types = [];
+      let subInputs = 0;
 
       query.onsuccess = () => {
         console.log(query.result)
@@ -65,25 +74,26 @@ export const getDB = (inputData, inputIndex, inputValues) => {
             keys.push(key)
             questions.push(query.result[key].question)
             types.push(query.result[key].type)
+            subInputs = query.result[key].subInputs
           }
         }
-        dispatch(getInputData(keys.length, questions, types));
-        console.log(types)
-        let counter = Number(values[values.length - 1]) || 0;
+        dispatch(getSubInputData(subInputs))
         if (inputValues) {
-          console.log({ cID: inputValues.id, question: inputValues.question, type: inputValues.type })
-          store.put({ cID: inputValues.id, question: inputValues.question, type: inputValues.type });
+          subInputs += 1;
+          store.put({ cID: Date.now(), question: inputValues.question, type: inputValues.type, subInputs: [] });
+          dispatch(getSubInputData(subInputs, inputValues.id))
         }
         if (inputData) {
-          counter += 1;
-          store.put({ cID: counter });
+          store.put({ cID: Date.now(), question: '', type: 'radio', subInputs: [] });
           dispatch(putInputData(keys.length + 1))
+          dispatch(getInputData([keys.length]));
         }
         if (inputIndex) {
-          store.delete(values[inputIndex - 1])
-          dispatch(deleteInputData(values[inputIndex - 1]))
+          store.delete(inputIndex)
+          dispatch(deleteInputData(inputIndex))
           dispatch(getInputData(keys.length - 1));
         }
+        dispatch(getInputData(query.result, keys.length, questions, types));
       }
 
       transaction.oncomplete = () => {
