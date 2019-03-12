@@ -11,7 +11,6 @@ class Inputs extends Component {
   }
 
   tempFunc2(val) {
-    console.log(val)
   }
 
   render() {

@@ -77,6 +77,7 @@ class SubInput extends Component {
           } else {
             oldSubInputs.push(newSubInput)
             newSubInputs = oldSubInputs;
+            this.tempFunc0(newSubInputs)
           }
           this.props.tempFunc(newSubInputs)
           this.props.tempFunc3(newSubInputs)
@@ -87,11 +88,47 @@ class SubInput extends Component {
   }
 
   tempFunc(val) {
-    console.log(val)
   }
 
   tempFunc3(val) {
-    console.log(val)
+  }
+
+  tempFunc0() {
+    if (this.props) {
+      const data = this.props.inputData;
+      let updatedFormData = {};
+      let keyValue;
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          if (data[key].subInputs[key].id === this.props.value) {
+            keyValue = key;
+            let oldSubInputs = data[key].subInputs[key].subInputs
+            let newSubInputs = []
+            const newSubInput = {
+              id: Date.now(),
+              conditionValue: '',
+              question: '',
+              type: 'radio',
+              subInputs: []
+            }
+            if (oldSubInputs.length === 0) {
+              newSubInputs.push(newSubInput)
+            } else {
+              oldSubInputs.push(newSubInput)
+              newSubInputs = oldSubInputs;
+            }
+            return newSubInputs;
+          }
+        }
+      }
+    } else {
+      return
+    }
+
+  }
+
+  tempFunc10 = () => {
+    return this.props.childs
   }
 
   render() {
@@ -150,11 +187,15 @@ class SubInput extends Component {
             {this.props.value}
           </div>
         </div>
-        <SubInputs
-          type={this.state.controls.type.value}
-          value={this.props.value}
-          tempFunc={this.tempFunc}
-          tempFunc3={this.tempFunc3} />
+        <div className={styles.subss}>
+          <SubInputs
+            type={this.state.controls.type.value}
+            value={this.props.value}
+            tempFunc={this.tempFunc}
+            tempFunc3={this.tempFunc3}
+            tempFunc0={this.tempFunc0}
+            tempFunc10={this.tempFunc10()} />
+        </div>
       </>
     )
   }

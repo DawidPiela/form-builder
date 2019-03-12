@@ -14,7 +14,8 @@ class Input extends Component {
       question: elements.question,
       type: elements.type
     },
-    formIsValid: false
+    formIsValid: false,
+    subs: null
   }
 
   componentDidMount() {
@@ -44,12 +45,9 @@ class Input extends Component {
   }
 
   tempFunc(val) {
-    console.log(val)
   }
 
-  tempFunc3(val) {
-    return val;
-  }
+
 
   checkValidity(value, rules) {
     let isValid = true;
@@ -85,7 +83,12 @@ class Input extends Component {
     this.setState({ controls: updatedControls, formIsValid: formIsValid });
   };
 
-  onAddSubInput = () => {
+  onAddSubInput = (newChildInput) => {
+    let childs = [];
+    if (Array.isArray(newChildInput)) {
+      childs = newChildInput;
+    }
+    // debugger;
     const data = this.props.inputData;
     let updatedFormData = {};
     let keyValue;
@@ -100,13 +103,22 @@ class Input extends Component {
             conditionValue: '',
             question: '',
             type: 'radio',
-            subInputs: []
+            subInputs: childs
           }
           if (oldSubInputs.length === 0) {
             newSubInputs.push(newSubInput)
           } else {
+            // debugger;
             oldSubInputs.push(newSubInput)
-            newSubInputs = oldSubInputs;
+            newSubInputs.push(newSubInput)
+
+
+            // oldSubInputs[0].subInputs.push(newSubInput);
+            // newSubInputs = oldSubInputs;
+            // console.log('im here')
+            // console.log(newSubInputs)
+            debugger;
+            this.tempFunc10(newSubInputs)
           }
           updatedFormData = {
             ...data,
@@ -123,11 +135,32 @@ class Input extends Component {
     this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
   }
 
+  // tempFunc3(val) {
+  //   this.onAddSubInput(val)
+  //   return val;
+  // }
+
   onDeleteHandler = () => {
     this.props.onGetDB(null, this.props.value)
   }
 
+  tempFunc10 = () => {
+    const data = this.props.inputData;
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data[key].cID === this.props.value) {
+          let oldSubInputs = data[key].subInputs
+          return oldSubInputs;
+        }
+      }
+    }
+  }
+
   render() {
+    const tempFunc3 = (val) => {
+      this.onAddSubInput(val)
+    }
+
     const formElementsArray = [];
     for (let key in this.state.controls) {
       formElementsArray.push({
@@ -167,8 +200,8 @@ class Input extends Component {
           type={this.state.controls.type.value}
           value={this.props.value}
           tempFunc={this.tempFunc}
-          tempFunc3={this.tempFunc3}
-          tt={'1'} />
+          tempFunc3={tempFunc3}
+          tempFunc10={this.tempFunc10()} />
       </>
     )
   }

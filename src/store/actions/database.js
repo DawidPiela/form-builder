@@ -35,7 +35,7 @@ export const deleteInputData = (inputIndex) => {
 export const getDB = (inputData, inputIndex, inputValues, level) => {
   return dispatch => {
     // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-    let request = window.indexedDB.open('TempDatabaseH', 1);
+    let request = window.indexedDB.open('TempDatabaseK', 1);
     let database;
     let transaction;
     let store;
