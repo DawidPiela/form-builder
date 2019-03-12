@@ -9,13 +9,22 @@ class Inputs extends Component {
   componentDidMount() {
     this.props.onGetDB()
   }
+
+  tempFunc2(val) {
+    console.log(val)
+  }
+
   render() {
     const data = this.props.inputData;
     const inputs = [];
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
         for (let i = 0; i < data.length; i++) {
-          inputs[i] = <Input key={i} value={data[i].cID} />
+          inputs[i] = <Input
+            key={i}
+            value={data[i].cID}
+            tempFunc2={this.tempFunc2}
+          />
         }
       }
     }

@@ -39,6 +39,16 @@ class Input extends Component {
       }
     }
     this.setState({ controls: updatedControls })
+
+    this.props.tempFunc2(2)
+  }
+
+  tempFunc(val) {
+    console.log(val)
+  }
+
+  tempFunc3(val) {
+    return val;
   }
 
   checkValidity(value, rules) {
@@ -143,17 +153,6 @@ class Input extends Component {
       </div>
     ))
 
-    let arr;
-
-    const data = this.props.inputData;
-    for (let key in data) {
-      if (data.hasOwnProperty(key)) {
-        if (data[key].cID === this.props.value) {
-          arr = data[key].subInputs
-        }
-      }
-    }
-
     return (
       <>
         <div className={styles.inputBox}>
@@ -167,7 +166,9 @@ class Input extends Component {
         <SubInputs
           type={this.state.controls.type.value}
           value={this.props.value}
-          arr={arr} />
+          tempFunc={this.tempFunc}
+          tempFunc3={this.tempFunc3}
+          tt={'1'} />
       </>
     )
   }

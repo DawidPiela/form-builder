@@ -5,13 +5,31 @@ import * as actions from '../../../../store/actions/index';
 import SubInput from './SubInput';
 
 class SubInputs extends Component {
+  state = {
+    temp: []
+  }
   componentDidMount() {
     this.props.onGetDB()
+
+    // this.props.tempFunc3(22)
+    // this.tempFunc3(this.state.temp)
   }
   tempFunc(val) {
     console.log(val)
+    // console.log(this.props.value)
+    // debugger;
+    // this.props.tempFunc(val)
+  }
+  tempFunc3(val) {
+    // this.setState({ temp: val})
+    // this.props.tempFunc3(this.state.temp)
+    // debugger;
+    // return val;
   }
   render() {
+   const tempFunc3 = (val) => {
+      this.props.tempFunc3(val)
+    }
     const data = this.props.inputData;
     let subInputs = [];
     for (let key in data) {
@@ -22,8 +40,8 @@ class SubInputs extends Component {
               subInputs[i] = <SubInput
                 key={i}
                 value={data[key].subInputs[i].id}
-                arr={this.props.arr}
-                tempFunc={this.tempFunc} />
+                tempFunc={this.tempFunc}
+                tempFunc3={tempFunc3} />
             }
           }
         }

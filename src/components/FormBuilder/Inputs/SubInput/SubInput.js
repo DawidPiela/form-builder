@@ -56,44 +56,42 @@ class SubInput extends Component {
   };
 
   onAddSubInput = () => {
-    console.log(this.props.arr)
-    this.props.tempFunc(this.props.arr)
-    
-    // const data = this.props.inputData;
-    // let updatedFormData = {};
-    // let keyValue;
-    // for (let key in data) {
-    //   if (data.hasOwnProperty(key)) {
-    //     if (data[key].cID === this.props.value) {
-    //       keyValue = key;
-    //       let oldSubInputs = data[key].subInputs
-    //       let newSubInputs = []
-    //       const newSubInput = {
-    //         id: Date.now(),
-    //         conditionValue: '',
-    //         question: '',
-    //         type: 'radio',
-    //         subInputs: []
-    //       }
-    //       if (oldSubInputs.length === 0) {
-    //         newSubInputs.push(newSubInput)
-    //       } else {
-    //         oldSubInputs.push(newSubInput)
-    //         newSubInputs = oldSubInputs;
-    //       }
-    //       updatedFormData = {
-    //         ...data,
-    //         [key]: {
-    //           cID: data[key].cID,
-    //           question: this.state.controls.question.value,
-    //           type: this.state.controls.type.value,
-    //           subInputs: newSubInputs
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    const data = this.props.inputData;
+    let updatedFormData = {};
+    let keyValue;
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data[key].subInputs[key].id === this.props.value) {
+          keyValue = key;
+          let oldSubInputs = data[key].subInputs[key].subInputs
+          let newSubInputs = []
+          const newSubInput = {
+            id: Date.now(),
+            conditionValue: '',
+            question: '',
+            type: 'radio',
+            subInputs: []
+          }
+          if (oldSubInputs.length === 0) {
+            newSubInputs.push(newSubInput)
+          } else {
+            oldSubInputs.push(newSubInput)
+            newSubInputs = oldSubInputs;
+          }
+          this.props.tempFunc(newSubInputs)
+          this.props.tempFunc3(newSubInputs)
+        }
+      }
+    }
     // this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
+  }
+
+  tempFunc(val) {
+    console.log(val)
+  }
+
+  tempFunc3(val) {
+    console.log(val)
   }
 
   render() {
@@ -152,7 +150,11 @@ class SubInput extends Component {
             {this.props.value}
           </div>
         </div>
-        <SubInputs type={this.state.controls.type.value} value={this.props.value} />
+        <SubInputs
+          type={this.state.controls.type.value}
+          value={this.props.value}
+          tempFunc={this.tempFunc}
+          tempFunc3={this.tempFunc3} />
       </>
     )
   }
