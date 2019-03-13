@@ -55,75 +55,96 @@ class SubInput extends Component {
     this.setState({ controls: updatedControls, formIsValid: formIsValid });
   };
 
-  onAddSubInput = () => {
-    const data = this.props.inputData;
-    let updatedFormData = {};
-    let keyValue;
-    for (let key in data) {
-      if (data.hasOwnProperty(key)) {
-        if (data[key].subInputs[key].id === this.props.value) {
-          keyValue = key;
-          let oldSubInputs = data[key].subInputs[key].subInputs
-          let newSubInputs = []
-          const newSubInput = {
-            id: Date.now(),
-            conditionValue: '',
-            question: '',
-            type: 'radio',
-            subInputs: []
-          }
-          if (oldSubInputs.length === 0) {
-            newSubInputs.push(newSubInput)
-          } else {
-            oldSubInputs.push(newSubInput)
-            newSubInputs = oldSubInputs;
-            this.tempFunc0(newSubInputs)
-          }
-          this.props.tempFunc(newSubInputs)
-          this.props.tempFunc3(newSubInputs)
-        }
-      }
+  onAddSubInput = (newChildInput) => {
+    // console.log(this.props.childs)
+    let childs = [];
+    if (Array.isArray(newChildInput)) {
+
+      childs = newChildInput;
+      // console.log('im here')
     }
+    const newSubInput = {
+      id: Date.now(),
+      conditionValue: '',
+      question: '',
+      type: 'radio',
+      subInputs: childs
+    }
+    this.props.tempFunc3([newSubInput])
+
+
+
+    // console.log(this.props.value)
+    // const data = this.props.inputData;
+    // let updatedFormData = {};
+    // let keyValue;
+    // for (let key in data) {
+    //   if (data.hasOwnProperty(key)) {
+    //     if (data[key].subInputs[key].id === this.props.value) {
+    //       keyValue = key;
+    //       let oldSubInputs = data[key].subInputs[key].subInputs
+    //       let newSubInputs = []
+    //       const newSubInput = {
+    //         id: Date.now(),
+    //         conditionValue: '',
+    //         question: '',
+    //         type: 'radio',
+    //         subInputs: []
+    //       }
+    //       // debugger;
+    //       if (oldSubInputs.length === 0) {
+    //         newSubInputs.push(newSubInput)
+    //       } else {
+    //         oldSubInputs.push(newSubInput)
+    //         newSubInputs = oldSubInputs;
+    //         this.tempFunc0(newSubInputs)
+    //       }
+    //       this.props.tempFunc(newSubInputs)
+    //       this.props.tempFunc3(newSubInputs)
+    //     }
+    //   }
+    // }
     // this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
   }
 
   tempFunc(val) {
   }
 
-  tempFunc3(val) {
-  }
+  // tempFunc3(val) {
+  //   onAddSubInput(val)
+  // }
 
   tempFunc0() {
-    if (this.props) {
-      const data = this.props.inputData;
-      let updatedFormData = {};
-      let keyValue;
-      for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-          if (data[key].subInputs[key].id === this.props.value) {
-            keyValue = key;
-            let oldSubInputs = data[key].subInputs[key].subInputs
-            let newSubInputs = []
-            const newSubInput = {
-              id: Date.now(),
-              conditionValue: '',
-              question: '',
-              type: 'radio',
-              subInputs: []
-            }
-            if (oldSubInputs.length === 0) {
-              newSubInputs.push(newSubInput)
-            } else {
-              oldSubInputs.push(newSubInput)
-              newSubInputs = oldSubInputs;
-            }
-            return newSubInputs;
-          }
-        }
-      }
-    } else {
-      return
-    }
+    // if (this.props) {
+    //   const data = this.props.inputData;
+    //   let updatedFormData = {};
+    //   let keyValue;
+    //   for (let key in data) {
+    //     if (data.hasOwnProperty(key)) {
+    //       if (data[key].subInputs[key].id === this.props.value) {
+    //         keyValue = key;
+    //         let oldSubInputs = data[key].subInputs[key].subInputs
+    //         let newSubInputs = []
+    //         const newSubInput = {
+    //           id: Date.now(),
+    //           conditionValue: '',
+    //           question: '',
+    //           type: 'radio',
+    //           subInputs: []
+    //         }
+    //         if (oldSubInputs.length === 0) {
+    //           newSubInputs.push(newSubInput)
+    //         } else {
+    //           oldSubInputs.push(newSubInput)
+    //           newSubInputs = oldSubInputs;
+    //         }
+    //         return newSubInputs;
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   return
+    // }
 
   }
 
@@ -132,6 +153,11 @@ class SubInput extends Component {
   }
 
   render() {
+    // console.log(this.props.childs)
+    const tempFunc3 = (val) => {
+      this.onAddSubInput(val)
+    }
+
     const formElementsArray = [];
     for (let key in this.state.controls) {
       formElementsArray.push({
@@ -192,7 +218,7 @@ class SubInput extends Component {
             type={this.state.controls.type.value}
             value={this.props.value}
             tempFunc={this.tempFunc}
-            tempFunc3={this.tempFunc3}
+            tempFunc3={tempFunc3}
             tempFunc0={this.tempFunc0}
             tempFunc10={this.tempFunc10()} />
         </div>
@@ -207,7 +233,7 @@ const mapStateToProps = state => {
     inputQuestions: state.database.inputQuestions,
     inputTypes: state.database.inputTypes,
     subInputsCount: state.database.subInputsCount,
-    inputData: state.database.inputData
+    // inputData: state.database.inputData
   }
 }
 

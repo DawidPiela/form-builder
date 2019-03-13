@@ -41,7 +41,6 @@ class Input extends Component {
     }
     this.setState({ controls: updatedControls })
 
-    this.props.tempFunc2(2)
   }
 
   tempFunc(val) {
@@ -86,7 +85,9 @@ class Input extends Component {
   onAddSubInput = (newChildInput) => {
     let childs = [];
     if (Array.isArray(newChildInput)) {
+
       childs = newChildInput;
+      // console.log('im here')
     }
     // debugger;
     const data = this.props.inputData;
@@ -117,7 +118,7 @@ class Input extends Component {
             // newSubInputs = oldSubInputs;
             // console.log('im here')
             // console.log(newSubInputs)
-            debugger;
+            // debugger;
             this.tempFunc10(newSubInputs)
           }
           updatedFormData = {
@@ -134,11 +135,6 @@ class Input extends Component {
     }
     this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
   }
-
-  // tempFunc3(val) {
-  //   this.onAddSubInput(val)
-  //   return val;
-  // }
 
   onDeleteHandler = () => {
     this.props.onGetDB(null, this.props.value)

@@ -10,9 +10,6 @@ class Inputs extends Component {
     this.props.onGetDB()
   }
 
-  tempFunc2(val) {
-  }
-
   render() {
     const data = this.props.inputData;
     const inputs = [];
@@ -22,7 +19,6 @@ class Inputs extends Component {
           inputs[i] = <Input
             key={i}
             value={data[i].cID}
-            tempFunc2={this.tempFunc2}
           />
         }
       }

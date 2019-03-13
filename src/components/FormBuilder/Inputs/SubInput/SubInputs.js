@@ -19,7 +19,7 @@ class SubInputs extends Component {
 
   }
   tempFunc3(val) {
-
+    // console.log(val)
   }
   render() {
     const tempFunc3 = (val) => {
@@ -28,6 +28,7 @@ class SubInputs extends Component {
     let subInputs = [];
     if (this.props.tempFunc10) {
       const data = this.props.tempFunc10
+      // console.log('__SUBS', data);
       for (let i = 0; i < data.length; i++) {
         // debugger;
         subInputs[i] = <SubInput
@@ -90,8 +91,8 @@ class SubInputs extends Component {
 
 const mapStateToProps = state => {
   return {
-    subInputsCount: state.database.subInputsCount,
-    inputData: state.database.inputData
+    subInputsCount: state.database.subInputsCount
+    // inputData: state.database.inputData
   }
 }
 
