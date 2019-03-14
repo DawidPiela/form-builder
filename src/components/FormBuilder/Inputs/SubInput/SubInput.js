@@ -58,13 +58,18 @@ class SubInput extends Component {
   onAddSubInput = (newChildInput) => {
     // console.log(this.props.childs)
     let childs = [];
+    let newId = Date.now();
     if (Array.isArray(newChildInput)) {
 
       childs = newChildInput;
       // console.log('im here')
     }
+    // console.log(this.props.id)
+    if(this.props.id) {
+      newId = this.props.id;
+    }
     const newSubInput = {
-      id: Date.now(),
+      id: newId,
       conditionValue: '',
       question: '',
       type: 'radio',

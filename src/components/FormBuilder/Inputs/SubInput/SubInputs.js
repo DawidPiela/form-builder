@@ -31,11 +31,17 @@ class SubInputs extends Component {
       // console.log('__SUBS', data);
       for (let i = 0; i < data.length; i++) {
         // debugger;
+        if (!data[i].id) {
+          data[i].id = Date.now();
+        }
+        // console.log(data)
+        // debugger;
         subInputs[i] = <SubInput
           key={i}
           value={data[i].id}
           tempFunc={this.tempFunc}
           tempFunc3={tempFunc3}
+          id={data[i].id}
           childs={data[i].subInputs} />
       }
     }

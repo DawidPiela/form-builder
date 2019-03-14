@@ -141,6 +141,7 @@ class Input extends Component {
   }
 
   tempFunc10 = () => {
+    // console.log('im here')
     const data = this.props.inputData;
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
