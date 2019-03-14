@@ -9,24 +9,30 @@ import * as actions from '../../../../store/actions/index';
 import SubInputs from '../SubInput/SubInputs';
 
 class Input extends Component {
+  constructor(props) {
+    super(props);
+    this.onAddSubInput = this.onAddSubInput.bind(this);
+  }
   state = {
     controls: {
       question: elements.question,
       type: elements.type
     },
     formIsValid: false,
-    subs: null
+    subs: null,
+    question: ''
   }
 
-  componentDidMount() {
-    let questionValue;
-    let typeValue;
-    if (typeof this.props.inputQuestions !== 'undefined' && this.props.inputQuestions[0]) {
-      questionValue = this.props.inputQuestions[this.props.value - 1];
-      typeValue = this.props.inputTypes[this.props.value - 1] || 'radio';
-    } else {
-      questionValue = '';
-      typeValue = 'radio';
+  componentWillReceiveProps(nextProps) {
+    // if(nextProps.value !== this.props.value) {
+    //   this.setState({value: nextProps.value});
+    // }
+    let questionValue = '';
+    let typeValue = 'radio';
+    const data = this.props.data;
+    if (this.props) {
+      questionValue = data.question;
+      typeValue = data.type
     }
     const updatedControls = {
       ...this.state.controls,
@@ -40,8 +46,30 @@ class Input extends Component {
       }
     }
     this.setState({ controls: updatedControls })
-
   }
+
+  // componentWillMount() {
+  //   console.log('didmount', this.props.question)
+  //   let questionValue = '';
+  //   let typeValue = 'radio';
+  //   const data = this.props.data;
+  //   if (this.props) {
+  //     questionValue = data.question;
+  //     typeValue = data.type
+  //   }
+  //   const updatedControls = {
+  //     ...this.state.controls,
+  //     question: {
+  //       ...this.state.controls.question,
+  //       value: questionValue
+  //     },
+  //     type: {
+  //       ...this.state.controls.type,
+  //       value: typeValue
+  //     }
+  //   }
+  //   this.setState({ controls: updatedControls })
+  // }
 
   tempFunc(val) {
   }
@@ -84,23 +112,23 @@ class Input extends Component {
 
   onAddSubInput = (newChildInput) => {
     let childs = [];
+    let newId = Date.now();
     if (Array.isArray(newChildInput)) {
-
+      newId = newChildInput[0].id;
       childs = newChildInput;
-      // console.log('im here')
     }
-    // debugger;
-    const data = this.props.inputData;
+    const data = this.props.data;
     let updatedFormData = {};
     let keyValue;
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
-        if (data[key].cID === this.props.value) {
+        if (data[key] === this.props.value) {
           keyValue = key;
-          let oldSubInputs = data[key].subInputs
+          let oldSubInputs = data.subInputs
+          let question = '';
           let newSubInputs = []
           const newSubInput = {
-            id: Date.now(),
+            id: newId,
             conditionValue: '',
             question: '',
             type: 'radio',
@@ -109,23 +137,26 @@ class Input extends Component {
           if (oldSubInputs.length === 0) {
             newSubInputs.push(newSubInput)
           } else {
-            // debugger;
             oldSubInputs.push(newSubInput)
             newSubInputs.push(newSubInput)
-
-
-            // oldSubInputs[0].subInputs.push(newSubInput);
-            // newSubInputs = oldSubInputs;
-            // console.log('im here')
-            // console.log(newSubInputs)
-            // debugger;
             this.tempFunc10(newSubInputs)
           }
+          // if(data.question !== '') {
+          //   question = data.question
+          // } else {
+          //   question = this.state.controls.question.value;
+          // }
+          if (this.state) {
+            question = this.state.controls.question.value;
+          } else {
+            question = data.question
+          }
+          console.log(this.props.question)
           updatedFormData = {
             ...data,
             [key]: {
-              cID: data[key].cID,
-              question: this.state.controls.question.value,
+              cID: this.props.value,
+              question: question,
               type: this.state.controls.type.value,
               subInputs: newSubInputs
             }
@@ -133,7 +164,8 @@ class Input extends Component {
         }
       }
     }
-    this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
+    this.props.addInputHandler(updatedFormData[keyValue])
+    // this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
   }
 
   onDeleteHandler = () => {
@@ -141,12 +173,11 @@ class Input extends Component {
   }
 
   tempFunc10 = () => {
-    // console.log('im here')
-    const data = this.props.inputData;
+    const data = this.props.data;
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
-        if (data[key].cID === this.props.value) {
-          let oldSubInputs = data[key].subInputs
+        if (data[key] === this.props.value) {
+          let oldSubInputs = data.subInputs
           return oldSubInputs;
         }
       }
@@ -154,6 +185,7 @@ class Input extends Component {
   }
 
   render() {
+    console.log('render', this.props.question)
     const tempFunc3 = (val) => {
       this.onAddSubInput(val)
     }
@@ -204,16 +236,6 @@ class Input extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    inputsCount: state.database.inputsCount,
-    inputQuestions: state.database.inputQuestions,
-    inputTypes: state.database.inputTypes,
-    subInputsCount: state.database.subInputsCount,
-    inputData: state.database.inputData
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     onGetDB: (inputData, inputIndex, inputValues) =>
@@ -221,4 +243,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default connect(null, mapDispatchToProps)(Input);

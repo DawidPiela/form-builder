@@ -19,23 +19,19 @@ class SubInputs extends Component {
 
   }
   tempFunc3(val) {
-    // console.log(val)
   }
   render() {
+
     const tempFunc3 = (val) => {
       this.props.tempFunc3(val)
     }
     let subInputs = [];
     if (this.props.tempFunc10) {
       const data = this.props.tempFunc10
-      // console.log('__SUBS', data);
       for (let i = 0; i < data.length; i++) {
-        // debugger;
         if (!data[i].id) {
-          data[i].id = Date.now();
+          data[i].id = 111;
         }
-        // console.log(data)
-        // debugger;
         subInputs[i] = <SubInput
           key={i}
           value={data[i].id}
@@ -46,7 +42,6 @@ class SubInputs extends Component {
       }
     }
     if (this.props.tempFunc0) {
-      // debugger;
       // console.log('SUBS__', this.props.tempFunc0())
       // const data = this.props.tempFunc0();
       // subInputs = [];
@@ -66,7 +61,6 @@ class SubInputs extends Component {
       // }
       // }
     } else {
-      // debugger;
       // const data = this.props.inputData;
       // subInputs = [];
       // for (let key in data) {

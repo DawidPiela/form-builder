@@ -56,15 +56,11 @@ class SubInput extends Component {
   };
 
   onAddSubInput = (newChildInput) => {
-    // console.log(this.props.childs)
     let childs = [];
-    let newId = Date.now();
+    let newId = 222;
     if (Array.isArray(newChildInput)) {
-
       childs = newChildInput;
-      // console.log('im here')
     }
-    // console.log(this.props.id)
     if(this.props.id) {
       newId = this.props.id;
     }
@@ -158,7 +154,6 @@ class SubInput extends Component {
   }
 
   render() {
-    // console.log(this.props.childs)
     const tempFunc3 = (val) => {
       this.onAddSubInput(val)
     }

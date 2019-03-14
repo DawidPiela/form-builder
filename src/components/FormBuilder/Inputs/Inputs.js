@@ -10,6 +10,11 @@ class Inputs extends Component {
     this.props.onGetDB()
   }
 
+  addInputHandler = (value) => {
+    console.log(value)
+    this.props.onGetDB(null, null, value, 0)
+  }
+
   render() {
     const data = this.props.inputData;
     const inputs = [];
@@ -18,7 +23,10 @@ class Inputs extends Component {
         for (let i = 0; i < data.length; i++) {
           inputs[i] = <Input
             key={i}
+            data={data[i]}
             value={data[i].cID}
+            question={data[i].question}
+            addInputHandler={this.addInputHandler}
           />
         }
       }
@@ -41,8 +49,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetDB: () =>
-      dispatch(actions.getDB())
+    onGetDB: (inputData, inputIndex, inputValues) =>
+      dispatch(actions.getDB(inputData, inputIndex, inputValues))
   }
 }
 
