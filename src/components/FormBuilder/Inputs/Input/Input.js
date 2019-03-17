@@ -24,9 +24,6 @@ class Input extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if(nextProps.value !== this.props.value) {
-    //   this.setState({value: nextProps.value});
-    // }
     let questionValue = '';
     let typeValue = 'radio';
     const data = this.props.data;
@@ -48,33 +45,8 @@ class Input extends Component {
     this.setState({ controls: updatedControls })
   }
 
-  // componentWillMount() {
-  //   console.log('didmount', this.props.question)
-  //   let questionValue = '';
-  //   let typeValue = 'radio';
-  //   const data = this.props.data;
-  //   if (this.props) {
-  //     questionValue = data.question;
-  //     typeValue = data.type
-  //   }
-  //   const updatedControls = {
-  //     ...this.state.controls,
-  //     question: {
-  //       ...this.state.controls.question,
-  //       value: questionValue
-  //     },
-  //     type: {
-  //       ...this.state.controls.type,
-  //       value: typeValue
-  //     }
-  //   }
-  //   this.setState({ controls: updatedControls })
-  // }
-
   tempFunc(val) {
   }
-
-
 
   checkValidity(value, rules) {
     let isValid = true;
@@ -112,7 +84,8 @@ class Input extends Component {
 
   onAddSubInput = (newChildInput) => {
     let childs = [];
-    let newId = Date.now();
+    // let newId = Date.now();
+    let newId = '111';
     if (Array.isArray(newChildInput)) {
       newId = newChildInput[0].id;
       childs = newChildInput;
@@ -141,17 +114,12 @@ class Input extends Component {
             newSubInputs.push(newSubInput)
             this.tempFunc10(newSubInputs)
           }
-          // if(data.question !== '') {
-          //   question = data.question
-          // } else {
-          //   question = this.state.controls.question.value;
-          // }
           if (this.state) {
             question = this.state.controls.question.value;
           } else {
             question = data.question
           }
-          console.log(this.props.question)
+          this.sendQuestionValue(question);
           updatedFormData = {
             ...data,
             [key]: {
@@ -165,7 +133,11 @@ class Input extends Component {
       }
     }
     this.props.addInputHandler(updatedFormData[keyValue])
-    // this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
+  }
+
+  sendQuestionValue = (value) => {
+    console.log(value)
+    // return 'value'
   }
 
   onDeleteHandler = () => {
@@ -185,7 +157,6 @@ class Input extends Component {
   }
 
   render() {
-    console.log('render', this.props.question)
     const tempFunc3 = (val) => {
       this.onAddSubInput(val)
     }
@@ -230,6 +201,7 @@ class Input extends Component {
           value={this.props.value}
           tempFunc={this.tempFunc}
           tempFunc3={tempFunc3}
+          sendQuestionValue={this.sendQuestionValue()}
           tempFunc10={this.tempFunc10()} />
       </>
     )

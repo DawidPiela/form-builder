@@ -21,6 +21,28 @@ class SubInput extends Component {
     formIsValid: false
   }
 
+  componentWillReceiveProps(nextProps) {
+    let questionValue = '';
+    let typeValue = 'radio';
+    const data = this.props.data;
+    if (this.props) {
+      questionValue = data.question;
+      typeValue = data.type
+    }
+    const updatedControls = {
+      ...this.state.controls,
+      question: {
+        ...this.state.controls.question,
+        value: questionValue
+      },
+      type: {
+        ...this.state.controls.type,
+        value: typeValue
+      }
+    }
+    this.setState({ controls: updatedControls })
+  }
+
   checkValidity(value, rules) {
     let isValid = true;
     if (!rules) {
@@ -57,95 +79,26 @@ class SubInput extends Component {
 
   onAddSubInput = (newChildInput) => {
     let childs = [];
-    let newId = 222;
+    // let newId = Date.now();
+    let newId = '222';
+    let question = '';
     if (Array.isArray(newChildInput)) {
       childs = newChildInput;
     }
-    if(this.props.id) {
-      newId = this.props.id;
+    if (this.props.id) {
+      // newId = this.props.id;
     }
     const newSubInput = {
       id: newId,
       conditionValue: '',
-      question: '',
+      question: 'test',
       type: 'radio',
       subInputs: childs
     }
     this.props.tempFunc3([newSubInput])
-
-
-
-    // console.log(this.props.value)
-    // const data = this.props.inputData;
-    // let updatedFormData = {};
-    // let keyValue;
-    // for (let key in data) {
-    //   if (data.hasOwnProperty(key)) {
-    //     if (data[key].subInputs[key].id === this.props.value) {
-    //       keyValue = key;
-    //       let oldSubInputs = data[key].subInputs[key].subInputs
-    //       let newSubInputs = []
-    //       const newSubInput = {
-    //         id: Date.now(),
-    //         conditionValue: '',
-    //         question: '',
-    //         type: 'radio',
-    //         subInputs: []
-    //       }
-    //       // debugger;
-    //       if (oldSubInputs.length === 0) {
-    //         newSubInputs.push(newSubInput)
-    //       } else {
-    //         oldSubInputs.push(newSubInput)
-    //         newSubInputs = oldSubInputs;
-    //         this.tempFunc0(newSubInputs)
-    //       }
-    //       this.props.tempFunc(newSubInputs)
-    //       this.props.tempFunc3(newSubInputs)
-    //     }
-    //   }
-    // }
-    // this.props.onGetDB(null, null, updatedFormData[keyValue], 0)
   }
-
-  tempFunc(val) {
-  }
-
-  // tempFunc3(val) {
-  //   onAddSubInput(val)
-  // }
 
   tempFunc0() {
-    // if (this.props) {
-    //   const data = this.props.inputData;
-    //   let updatedFormData = {};
-    //   let keyValue;
-    //   for (let key in data) {
-    //     if (data.hasOwnProperty(key)) {
-    //       if (data[key].subInputs[key].id === this.props.value) {
-    //         keyValue = key;
-    //         let oldSubInputs = data[key].subInputs[key].subInputs
-    //         let newSubInputs = []
-    //         const newSubInput = {
-    //           id: Date.now(),
-    //           conditionValue: '',
-    //           question: '',
-    //           type: 'radio',
-    //           subInputs: []
-    //         }
-    //         if (oldSubInputs.length === 0) {
-    //           newSubInputs.push(newSubInput)
-    //         } else {
-    //           oldSubInputs.push(newSubInput)
-    //           newSubInputs = oldSubInputs;
-    //         }
-    //         return newSubInputs;
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   return
-    // }
 
   }
 
@@ -227,16 +180,6 @@ class SubInput extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    inputsCount: state.database.inputsCount,
-    inputQuestions: state.database.inputQuestions,
-    inputTypes: state.database.inputTypes,
-    subInputsCount: state.database.subInputsCount,
-    // inputData: state.database.inputData
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     onGetDB: (inputData, inputIndex, inputValues) =>
@@ -244,4 +187,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubInput);
+export default connect(null, mapDispatchToProps)(SubInput);

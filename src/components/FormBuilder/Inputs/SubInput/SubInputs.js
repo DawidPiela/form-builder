@@ -11,16 +11,13 @@ class SubInputs extends Component {
   }
   componentDidMount() {
     this.props.onGetDB()
-
-    // this.props.tempFunc3(22)
-    // this.tempFunc3(this.state.temp)
   }
   tempFunc(val) {
 
   }
-  tempFunc3(val) {
-  }
+
   render() {
+    console.log(this.props.sendQuestionValue)
 
     const tempFunc3 = (val) => {
       this.props.tempFunc3(val)
@@ -37,12 +34,12 @@ class SubInputs extends Component {
           value={data[i].id}
           tempFunc={this.tempFunc}
           tempFunc3={tempFunc3}
+          data={data[i]}
           id={data[i].id}
           childs={data[i].subInputs} />
       }
     }
     if (this.props.tempFunc0) {
-      // console.log('SUBS__', this.props.tempFunc0())
       // const data = this.props.tempFunc0();
       // subInputs = [];
       // for (let key in data) {

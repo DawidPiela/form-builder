@@ -67,7 +67,7 @@ export const getDB = (inputData, inputIndex, inputValues, level) => {
       let subInputs = 0;
 
       query.onsuccess = () => {
-        console.log(query.result)
+        // console.log(query.result)
         for (let key in query.result) {
           if (query.result.hasOwnProperty(key)) {
             values.push(query.result[key].cID)
@@ -78,7 +78,6 @@ export const getDB = (inputData, inputIndex, inputValues, level) => {
           }
         }
         if (inputValues) {
-          console.log(inputValues)
           store.put(inputValues)
           dispatch(getInputData());
         }

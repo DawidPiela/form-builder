@@ -11,7 +11,6 @@ class Inputs extends Component {
   }
 
   addInputHandler = (value) => {
-    console.log(value)
     this.props.onGetDB(null, null, value, 0)
   }
 
